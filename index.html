@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mi página protegida</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f4f4f4;
+        flex-direction: column;
+      }
+      #login {
+        text-align: center;
+      }
+      #login input {
+        padding: 10px;
+        margin: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      #login button {
+        padding: 10px 20px;
+        border: none;
+        background-color: #4caf50;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 5px;
+      }
+      #login button:hover {
+        background-color: #45a049;
+      }
+      #error-message {
+        color: red;
+        display: none;
+      }
+      #content {
+        display: none;
+      }
+      #logout-button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        border: none;
+        background-color: #f44336;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 5px;
+      }
+      #logout-button:hover {
+        background-color: #e53935;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="login">
+      <h2>Por favor ingresa la contraseña:</h2>
+      <input type="password" id="password" placeholder="Contraseña" />
+      <button onclick="checkPassword()">Ingresar</button>
+      <p id="error-message">Contraseña incorrecta. Inténtalo de nuevo.</p>
+    </div>
+
+    <div id="content">
+      <iframe
+        title="VENTA_TEST"
+        src="https://app.powerbi.com/view?r=eyJrIjoiN2JkNjczN2ItYjUzMy00ZDQ0LTkyYzEtNDM2ZmZiMzcyZjc3IiwidCI6ImI3MDUzMzUzLTMwOGUtNGM0ZC1iMzVmLTExNDFkZjNhNjcwYyIsImMiOjR9"
+        frameborder="0"
+        allowfullscreen="true"
+        style="width: 100vw; height: 100vh; border: none"
+      ></iframe>
+    </div>
+
+    <button id="logout-button" style="display: none" onclick="logout()">
+      Cerrar sesión
+    </button>
+
+    <script>
+      const correctPassword = '00000'; // Cambia esto por tu contraseña
+
+      // Verifica si la sesión ya está iniciada
+      if (localStorage.getItem('authenticated') === 'true') {
+        document.getElementById('login').style.display = 'none';
+        document.getElementById('content').style.display = 'block';
+        document.getElementById('logout-button').style.display = 'block';
+      }
+
+      function checkPassword() {
+        const userPassword = document.getElementById('password').value;
+        if (userPassword === correctPassword) {
+          localStorage.setItem('authenticated', 'true');
+          document.getElementById('login').style.display = 'none';
+          document.getElementById('content').style.display = 'block';
+          document.getElementById('logout-button').style.display = 'block';
+        } else {
+          document.getElementById('error-message').style.display = 'block';
+        }
+      }
+
+      // Función para cerrar sesión
+      function logout() {
+        localStorage.removeItem('authenticated');
+        location.reload(); // Recarga la página y vuelve al estado inicial
+      }
+    </script>
+  </body>
+</html>
